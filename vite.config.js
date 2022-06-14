@@ -1,5 +1,5 @@
 // import { resolve } from 'path';
-// import { defineConfig } from 'vite';
+import { defineConfig } from 'vite';
 
 // const alias = [
 //   { find: /^~/, replacement: '' },
@@ -48,9 +48,25 @@
 //   },
 //   esbuild,
 //   plugins: [
-    
+
 //   ],
 //   css: {
 //     preprocessorOptions: {},
 //   },
 // })
+
+const proxy = {};
+
+const openBrowser = true;
+
+// выше закомменчен тестовый вариант (нерабочий)
+export default defineConfig({
+  server: {
+    // proxy: proxy,
+    open: true,
+    port: 1337, // если занят, то переключеется на рандомный
+    fs: {
+      strict: true,
+    },
+  },
+});
