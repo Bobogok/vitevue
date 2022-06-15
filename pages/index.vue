@@ -32,15 +32,17 @@
       <input type="radio" id="business" :value="business" v-model="method" />
       <label for="business">Business</label>
     </div> -->
-    <div class="popup" v-if="side">
+    <!-- <div class="popup" v-if="side">
       <div class="popup__wrapper" :class="popupSide"></div>
-    </div>
+    </div> -->
+    <HeaderMenu />
   </div>
 </template>
 
 <script lang="ts">
 import Hello from '../components/Hello.vue';
 import Input from '../components/Input.vue';
+import HeaderMenu from '../components/HeaderMenu.vue';
 
 export default {
   data() {
@@ -58,7 +60,7 @@ export default {
       side: '',
     };
   },
-  components: { Hello, Input },
+  components: { Hello, Input, HeaderMenu },
   mounted() {
     document.body.addEventListener('click', (e) => {
       const body = document.querySelector('body') as HTMLBodyElement;
@@ -68,6 +70,8 @@ export default {
         this.side = 'right';
       }
     });
+    console.log(HeaderMenu);
+
     // this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
   },
   beforeDestroy() {
