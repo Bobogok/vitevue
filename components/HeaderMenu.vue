@@ -1,28 +1,39 @@
 <template>
-  <header class="header">
-    <nav
-      class="container swiper swiper-container swiper-free-mode header__menu-wrapper"
-    >
-      <div class="swiper-wrapper header__menu">
-        <div
-          class="swiper-slide header__menu-elem"
-          v-for="elem in menu"
-          :key="elem"
-        >
-          {{ elem }}
+  <main>
+    <header class="header">
+      <nav
+        class="container swiper swiper-container swiper-free-mode header__menu-wrapper"
+      >
+        <Transition name="fadeControls">
+          <button ref="prevButton" class="preview-slider-button--prev">
+            Prev
+          </button>
+        </Transition>
+        <div class="swiper-wrapper header__menu">
+          <div
+            class="swiper-slide header__menu-elem"
+            v-for="elem in menu"
+            :key="elem"
+          >
+            {{ elem }}
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
+        <button class="preview-slider-button--next">Next</button>
+      </nav>
+    </header>
+    <button @click="showAttr">showAttr</button>
+  </main>
 </template>
 
 <script lang="ts">
-import Swiper, { FreeMode } from 'swiper';
+import Swiper, { FreeMode, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
+import '../node_modules/swiper/swiper-bundle.min.css';
 
-Swiper.use([FreeMode]);
+Swiper.use([FreeMode, Navigation]);
 // import '../node_modules/swiper/swiper-bundle.min.css';
 
 // import 'swiper/css';
@@ -72,12 +83,13 @@ export default {
         //   el: '.swiper-pagination',
         //   clickable: true,
         // },
-        // navigation: {
-        //   nextEl: '.preview-slider-button--next',
-        //   prevEl: '.preview-slider-button--prev',
-        // },
+        navigation: {
+          nextEl: '.preview-slider-button--next',
+          prevEl: '.preview-slider-button--prev',
+        },
         resizeObserver: true,
       },
+      prevButton: false,
     };
   },
   mounted() {
@@ -85,12 +97,31 @@ export default {
     new Swiper('.header__menu-wrapper', this.swiperOptions);
     // });
   },
+  methods: {
+    showAttr() {
+      this.prevButton = this.$refs.prevButton!.disabled as boolean;
+    },
+  },
+  watch: {
+    prevButton() {
+      console.log(this.prevButton);
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* .swiper-container {
-  width: 600px;
-  height: 300px;
-} */
+.swiper-button-disabled {
+  opacity: 0;
+}
+
+.fadeControls-enter-active,
+.fadeControls-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fadeControls-enter-from,
+.fadeControls-leave-to {
+  opacity: 1;
+}
 </style>
